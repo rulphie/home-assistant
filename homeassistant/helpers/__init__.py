@@ -1,6 +1,5 @@
 """Helper methods for components within Home Assistant."""
 import re
-
 from typing import Any, Iterable, Tuple, Sequence, Dict
 
 from homeassistant.const import CONF_PLATFORM
@@ -9,8 +8,7 @@ from homeassistant.const import CONF_PLATFORM
 ConfigType = Dict[str, Any]
 
 
-def config_per_platform(config: ConfigType,
-                        domain: str) -> Iterable[Tuple[Any, Any]]:
+def config_per_platform(config: ConfigType, domain: str) -> Iterable[Tuple[Any, Any]]:
     """Break a component config into different platforms.
 
     For example, will find 'switch', 'switch 2', 'switch 3', .. etc
@@ -21,7 +19,8 @@ def config_per_platform(config: ConfigType,
 
         if not platform_config:
             continue
-        elif not isinstance(platform_config, list):
+
+        if not isinstance(platform_config, list):
             platform_config = [platform_config]
 
         for item in platform_config:
@@ -38,5 +37,5 @@ def extract_domain_configs(config: ConfigType, domain: str) -> Sequence[str]:
 
     Async friendly.
     """
-    pattern = re.compile(r'^{}(| .+)$'.format(domain))
+    pattern = re.compile(r"^{}(| .+)$".format(domain))
     return [key for key in config.keys() if pattern.match(key)]
